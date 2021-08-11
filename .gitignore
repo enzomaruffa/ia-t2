@@ -1,3 +1,4 @@
 obj
 solver.dSYM/
 **/*.o%
+**/*.DS_Store
