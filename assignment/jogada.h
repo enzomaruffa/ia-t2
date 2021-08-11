@@ -14,6 +14,9 @@ void destroi_jogada_filosofo(JogadaFilosofo_t *jogada);
 typedef struct {
     int pulos;
     int* posicao_pulos;
+
+    // Se 0, não. Se 1, sim e pra nós. Se -1, sim e pra eles.
+    char resulta_em_gol;
 } JogadaBola_t;
 
 // Escreve a jogada da bola

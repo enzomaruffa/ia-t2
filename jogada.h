@@ -11,6 +11,9 @@ void escreve_jogada_filosofo(char lado, JogadaFilosofo_t *jogada, char *vetor, i
 typedef struct {
     int pulos;
     int* posicao_pulos;
+
+    // Se 0, não. Se 1, sim e pra nós. Se -1, sim e pra eles.
+    char resulta_em_gol;
 } JogadaBola_t;
 
 // Escreve a jogada da bola

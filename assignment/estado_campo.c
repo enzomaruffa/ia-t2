@@ -49,8 +49,7 @@ int aplica_jogada_filosofo(JogadaFilosofo_t *jogada, EstadoCampo_t *campo) {
 /** 
  * 0 = ok
  * 1 = erro
- * 2 = ganha jogo
- * Não valida que a jogada é válida!
+ * Não valida se a jogada é válida!
  */
 int aplica_jogada_bola(JogadaBola_t *jogada, EstadoCampo_t *campo) {
     for (int i = 0; i < jogada->pulos; i++) {
@@ -70,9 +69,6 @@ int aplica_jogada_bola(JogadaBola_t *jogada, EstadoCampo_t *campo) {
 
     int ultima_posicao_bola = jogada->posicao_pulos[jogada->pulos - 1];
 
-    // Se a posicao final tiver um g, seta ganhou pra 1
-    int ganhou = campo->mapa[ultima_posicao_bola] == 'g';
-
     int start = posicao_atual_bola > ultima_posicao_bola ? ultima_posicao_bola : ultima_posicao_bola;
     int end = posicao_atual_bola > ultima_posicao_bola ? posicao_atual_bola : ultima_posicao_bola;
 
@@ -85,6 +81,6 @@ int aplica_jogada_bola(JogadaBola_t *jogada, EstadoCampo_t *campo) {
             campo->mapa[i] = '.';
         }
     } 
-    
-    return ganhou;
+
+    return 0;
 }
