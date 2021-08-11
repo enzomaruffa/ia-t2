@@ -3,8 +3,11 @@
 #include "jogada.h"
 
 typedef struct {
-    char lado;
+    // Se for 'e', esquerdo. 'd', direito
+    char meu_lado;
     int tamanho_mapa;
+
+    // Vetor de caracteres com o mapa
     char *mapa;
 
     int utilidade_calculada;
@@ -14,7 +17,13 @@ typedef struct {
 } EstadoCampo_t;
 
 // Cria um campo a partir do mapa inserido
-void cria_campo(EstadoCampo_t *dest, char *mapa, int tamanho_mapa);
+void cria_campo(EstadoCampo_t *dest, char meu_lado, char minha_vez, char *mapa, int tamanho_mapa);
+
+// Clona um campo
+void clona_campo(EstadoCampo_t *dest, EstadoCampo_t *campo);
+
+// Destrói um campo da memória
+void destroi_campo(EstadoCampo_t *campo);
 
 // Recebe 2 buffers e calcula todas as jogadas possiveis para um campo
 int cria_jogadas_possiveis(EstadoCampo_t *campo,
@@ -23,9 +32,9 @@ int cria_jogadas_possiveis(EstadoCampo_t *campo,
     int tamanho_jogadas_filosofo, int tamanho_jogadas_bola);
 
 // Aplica uma jogada filosofo em um campo
-void aplica_jogada_filosofo(JogadaFilosofo_t *jogada, EstadoCampo_t *campo);
+int aplica_jogada_filosofo(JogadaFilosofo_t *jogada, EstadoCampo_t *campo);
 
 // Aplica uma jogada bola em um campo
-void aplica_jogada_bola(JogadaBola_t *jogada, EstadoCampo_t *campo);
+int aplica_jogada_bola(JogadaBola_t *jogada, EstadoCampo_t *campo);
 
 #endif
