@@ -26,11 +26,114 @@ void clona_campo(EstadoCampo_t *dest, EstadoCampo_t *campo) {
     memcpy(dest->mapa, campo->mapa, sizeof(char) * dest->tamanho_mapa);
 }
 
+int verifica_gol(char meu_lado, int posicao_aterrisagem, int tamanho_mapa) {
+    // Se a posicao for o gol, faz uma jogada de gol
+    if (meu_lado == 'd' && posicao_aterrisagem == tamanho_mapa - 1) {
+        return -1; // Gol contra
+    } else if (meu_lado == 'd' && posicao_aterrisagem == 0) {
+        return 1; // Gol a favor
+    } else if (meu_lado == 'e' && posicao_aterrisagem == tamanho_mapa - 1) {
+        return 1; // Gol a favor
+    } 
+    return -1; // Gol contra
+}
+
+void adiciona_jogadas_bola(int lado_diff, EstadoCampo_t *campo, int posicao_bola, 
+                        JogadaBola_t **jogadas_bola, int tamanho_buffer_jogadas_bola,
+                        int *tamanho_jogadas_bola) {
+    // Guarda as posições que a bola está aterrisando
+    int posicao_atual_aterrisagem = 0;
+    int *posicoes_aterrisagem = malloc(sizeof(campo->tamanho_mapa));
+
+    // Guarda as posições que devemos checar
+    int posicao_atual_checagem = 0;
+    int iterador_checagem = 0;
+    int *posicoes_checagem = malloc(sizeof(campo->tamanho_mapa));
+
+    posicoes_checagem[0] = posicao_bola + lado_diff;
+    posicao_atual_checagem += 1;
+
+    while (iterador_checagem < posicao_atual_checagem) {
+        int posicao_checagem = posicoes_checagem[posicao_atual_checagem];
+
+        if (campo->mapa[posicao_checagem] == 'f') {
+            // Encontra a posicao de soltar a bola
+            int posicao_aterrisagem = posicao_checagem + lado_diff;
+            while (campo->mapa[posicao_aterrisagem] == 'f') {
+                posicao_aterrisagem += lado_diff;
+            }
+
+            // Adiciona na lista de posições de aterrisagem
+            posicoes_aterrisagem[posicao_atual_aterrisagem] = posicao_aterrisagem;
+            posicao_atual_aterrisagem += 1;
+
+            JogadaBola_t *jogada = malloc(sizeof(JogadaBola_t));
+            jogada->pulos = posicao_atual_aterrisagem;
+            jogada->posicao_pulos = malloc(sizeof(int) * posicao_atual_aterrisagem);
+            jogada->resulta_em_gol = 0;
+
+            // Copia as posições pulos envolvidas
+            memcpy(jogada->posicao_pulos, posicoes_aterrisagem, sizeof(int) * posicao_atual_aterrisagem);
+
+            // Adiciona nas jogadas bola
+            jogadas_bola[*tamanho_jogadas_bola] = jogadas_bola;
+            *tamanho_jogadas_bola += 1;
+
+            if (campo->mapa[posicao_aterrisagem] == 'g') {
+                jogada->resulta_em_gol = verifica_gol(campo->meu_lado, posicao_aterrisagem, campo->tamanho_mapa);
+            } else if (campo->mapa[posicao_aterrisagem] == '.') {
+                // Enfileira a jogada para ser verificada
+                posicoes_checagem[posicao_atual_checagem] = posicao_aterrisagem + 1;
+                posicao_atual_checagem += 1;
+            }
+        }
+    }
+
+    free(posicoes_aterrisagem);
+    free(posicoes_checagem);
+}
+
+// 1 se nenhuma jogada é possível porque algum jogador ganhou
 int cria_jogadas_possiveis(EstadoCampo_t *campo,
-    JogadaFilosofo_t *jogadas_filosofo, int tamanho_buffer_jogadas_filosofo,
-    JogadaBola_t *jogadas_bola, int tamanho_buffer_jogadas_bola,
-    int tamanho_jogadas_filosofo, int tamanho_jogadas_bola) {
-    // TODO
+    JogadaFilosofo_t **jogadas_filosofo, int tamanho_buffer_jogadas_filosofo,
+    JogadaBola_t **jogadas_bola, int tamanho_buffer_jogadas_bola,
+    int *tamanho_jogadas_filosofo, int *tamanho_jogadas_bola) {
+
+    if (campo->mapa == 'o' || campo->mapa[campo->tamanho_mapa - 1] == 'o') { 
+        return 1;
+    }
+
+    *tamanho_jogadas_filosofo = 0;
+    *tamanho_jogadas_bola = 0;
+
+    // Gera jogadas de filosofos
+    for (int i = 0; i < campo->tamanho_mapa; i++) {
+        if (campo->mapa[i] == '.') {
+            JogadaFilosofo_t *jogada = malloc(sizeof(JogadaFilosofo_t));
+            jogada->posicao = i;
+
+            jogadas_filosofo[*tamanho_jogadas_filosofo] = jogadas_filosofo;
+            *tamanho_jogadas_filosofo += 1;
+        }
+    }
+
+    // Acha a bola
+    int posicao_bola = -1;
+
+    for (int i = 0; i < campo->tamanho_mapa; i++) {
+        if (campo->mapa[i] == 'o') {
+            posicao_bola = i;
+        }
+    }
+
+    // Gera jogadas da bola
+    if (posicao_bola != -1) {
+        // Olha para a direita
+        adiciona_jogadas_bola(1, campo, posicao_bola, jogadas_bola, tamanho_buffer_jogadas_bola, tamanho_buffer_jogadas_bola);
+        // Olha para a esquerda
+        adiciona_jogadas_bola(-1, campo, posicao_bola, jogadas_bola, tamanho_buffer_jogadas_bola, tamanho_buffer_jogadas_bola);
+    }
+
     return 0;
 }
 

@@ -7,7 +7,7 @@ typedef struct {
     char meu_lado;
     int tamanho_mapa;
 
-    // Vetor de caracteres com o mapa
+    // Vetor de caracteres com o mapa. 0 é um gol, tamanho_mapa - 1 é outro
     char *mapa;
 
     int utilidade_calculada;
@@ -27,9 +27,9 @@ void destroi_campo(EstadoCampo_t *campo);
 
 // Recebe 2 buffers e calcula todas as jogadas possiveis para um campo
 int cria_jogadas_possiveis(EstadoCampo_t *campo,
-    JogadaFilosofo_t *jogadas_filosofo, int tamanho_buffer_jogadas_filosofo,
-    JogadaBola_t *jogadas_bola, int tamanho_buffer_jogadas_bola,
-    int tamanho_jogadas_filosofo, int tamanho_jogadas_bola);
+    JogadaFilosofo_t **jogadas_filosofo, int tamanho_buffer_jogadas_filosofo,
+    JogadaBola_t **jogadas_bola, int tamanho_buffer_jogadas_bola,
+    int *tamanho_jogadas_filosofo, int *tamanho_jogadas_bola);
 
 // Aplica uma jogada filosofo em um campo
 int aplica_jogada_filosofo(JogadaFilosofo_t *jogada, EstadoCampo_t *campo);
