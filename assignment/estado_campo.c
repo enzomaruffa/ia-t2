@@ -76,7 +76,7 @@ void adiciona_jogadas_bola(int lado_diff, EstadoCampo_t *campo, int posicao_bola
             memcpy(jogada->posicao_pulos, posicoes_aterrisagem, sizeof(int) * posicao_atual_aterrisagem);
 
             // Adiciona nas jogadas bola
-            jogadas_bola[*tamanho_jogadas_bola] = jogadas_bola;
+            jogadas_bola[*tamanho_jogadas_bola] = jogada;
             *tamanho_jogadas_bola += 1;
 
             if (campo->mapa[posicao_aterrisagem] == 'g') {
@@ -99,7 +99,7 @@ int cria_jogadas_possiveis(EstadoCampo_t *campo,
     JogadaBola_t **jogadas_bola, int tamanho_buffer_jogadas_bola,
     int *tamanho_jogadas_filosofo, int *tamanho_jogadas_bola) {
 
-    if (campo->mapa == 'o' || campo->mapa[campo->tamanho_mapa - 1] == 'o') { 
+    if (campo->mapa[0] == 'o' || campo->mapa[campo->tamanho_mapa - 1] == 'o') { 
         return 1;
     }
 
@@ -112,7 +112,7 @@ int cria_jogadas_possiveis(EstadoCampo_t *campo,
             JogadaFilosofo_t *jogada = malloc(sizeof(JogadaFilosofo_t));
             jogada->posicao = i;
 
-            jogadas_filosofo[*tamanho_jogadas_filosofo] = jogadas_filosofo;
+            jogadas_filosofo[*tamanho_jogadas_filosofo] = jogada;
             *tamanho_jogadas_filosofo += 1;
         }
     }
@@ -129,9 +129,9 @@ int cria_jogadas_possiveis(EstadoCampo_t *campo,
     // Gera jogadas da bola
     if (posicao_bola != -1) {
         // Olha para a direita
-        adiciona_jogadas_bola(1, campo, posicao_bola, jogadas_bola, tamanho_buffer_jogadas_bola, tamanho_buffer_jogadas_bola);
+        adiciona_jogadas_bola(1, campo, posicao_bola, jogadas_bola, tamanho_buffer_jogadas_bola, tamanho_jogadas_bola);
         // Olha para a esquerda
-        adiciona_jogadas_bola(-1, campo, posicao_bola, jogadas_bola, tamanho_buffer_jogadas_bola, tamanho_buffer_jogadas_bola);
+        adiciona_jogadas_bola(-1, campo, posicao_bola, jogadas_bola, tamanho_buffer_jogadas_bola, tamanho_jogadas_bola);
     }
 
     return 0;

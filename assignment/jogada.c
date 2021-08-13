@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "jogada.h"
 
 int escreve_jogada_filosofo(char lado, JogadaFilosofo_t *jogada, char *vetor, int tamanho_vetor) {

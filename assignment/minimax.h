@@ -1,7 +1,7 @@
 #ifndef __MINIMAX_H_
 #define __MINIMAX_H_
 #include "jogada.h"
-#include "campo.h"
+#include "estado_campo.h"
 
 // Calcula o valor de utilidade de um campo
 void calcula_utilidade(EstadoCampo_t *estado);

@@ -9,7 +9,7 @@ exemplo1: campo.h campo.c exemplo1.c
 
 exemplo2: campo.h campo.c exemplo2.c
 
-agente: campo.h campo.c agente.c
+agente: campo.h campo.c minimax.h estado_campo.c estado_campo.h jogada.c jogada.h minimax.c agente.c
 
 clean:
 	rm -f controlador exemplo1 exemplo2 agente *.o
