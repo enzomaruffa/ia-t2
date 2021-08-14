@@ -5,8 +5,8 @@
 
 // Ideia no momento: o valor de utilidade do estado é o quão distante a bola pode ficar do nosso gol - o quão distante do gol deles
 int calcula_utilidade(EstadoCampo_t *estado) {
-    int meu_gol = estado->meu_lado == 'e' ? 0 : estado->tamanho_mapa;
-    int gol_oponente = estado->meu_lado == 'd' ? 0 : estado->tamanho_mapa;
+    int meu_gol = estado->meu_lado == 'e' ? 0 : estado->tamanho_mapa - 1;
+    int gol_oponente = estado->meu_lado == 'd' ? 0 : estado->tamanho_mapa - 1;
 
     if (estado->mapa[meu_gol] == 'o') {
         return -10000;
@@ -40,26 +40,35 @@ int calcula_utilidade(EstadoCampo_t *estado) {
         JogadaBola_t *jogada = jogadas_bola[i];
 
         int posicao_aterrisagem = jogada->posicao_pulos[jogada->pulos - 1];
+        // printf("verificando posicao_aterrisagem: %d\n", posicao_aterrisagem);
 
         int distancia_meu_gol = abs(meu_gol - posicao_aterrisagem);
         int distancia_gol_oponente = abs(gol_oponente - posicao_aterrisagem);
 
+        // printf("    distancia_meu_gol: %d\n", distancia_meu_gol);
+        // printf("    distancia_gol_oponente: %d\n", distancia_gol_oponente);
+
         if (distancia_meu_gol > maior_distancia_meu_gol) {
             maior_distancia_meu_gol = distancia_meu_gol;
-        } else if (distancia_gol_oponente < maior_distancia_gol_oponente) {
+        } else if (distancia_gol_oponente > maior_distancia_gol_oponente) {
             maior_distancia_gol_oponente = distancia_gol_oponente;
         }
     }
 
+    // printf("estado->tamanho_mapa: %d\n", estado->tamanho_mapa);
+
     // Caso vá perder, aumenta em 1000
-    if (maior_distancia_gol_oponente == estado->tamanho_mapa) {
+    if (maior_distancia_gol_oponente == estado->tamanho_mapa - 1) {
         maior_distancia_gol_oponente += 1000;
     }
 
     // Caso vá ganhar, aumenta em 1000
-    if (maior_distancia_meu_gol == estado->tamanho_mapa) {
+    if (maior_distancia_meu_gol == estado->tamanho_mapa - 1) {
         maior_distancia_meu_gol += 1000;
     }
+
+    // printf("maior_distancia_gol_oponente: %d\n", maior_distancia_gol_oponente);
+    // printf("maior_distancia_meu_gol: %d\n", maior_distancia_meu_gol);
 
     free(jogadas_bola);
     return maior_distancia_meu_gol - (maior_distancia_gol_oponente * 2);

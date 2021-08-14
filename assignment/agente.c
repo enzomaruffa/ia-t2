@@ -46,10 +46,10 @@ int main(int argc, char **argv) {
     }
     printf("\n");
     
-    JogadaFilosofo_t **jogadas_filosofo = (JogadaFilosofo_t **) malloc(sizeof(JogadaFilosofo_t));
-    JogadaBola_t **jogadas_bola = (JogadaBola_t **) malloc(sizeof(JogadaBola_t));
-    int tamanho_buffer_jogadas_filosofo = (int) malloc(sizeof(JogadaFilosofo_t));
-    int tamanho_buffer_jogadas_bola = (int) malloc(sizeof(JogadaBola_t));
+    JogadaFilosofo_t **jogadas_filosofo = (JogadaFilosofo_t **) malloc(sizeof(JogadaFilosofo_t *) * campo->tamanho_mapa);
+    JogadaBola_t **jogadas_bola = (JogadaBola_t **) malloc(sizeof(JogadaBola_t *) * campo->tamanho_mapa);
+    int tamanho_buffer_jogadas_filosofo = campo->tamanho_mapa;
+    int tamanho_buffer_jogadas_bola = campo->tamanho_mapa;
     int tamanho_jogadas_filosofo = 0; 
     int tamanho_jogadas_bola = 0;
 
@@ -85,8 +85,8 @@ int main(int argc, char **argv) {
       // crias as jogadas possíveis do oponente
       JogadaFilosofo_t **jogadas_oponente_filosofo = (JogadaFilosofo_t **) malloc(sizeof(JogadaFilosofo_t));
       JogadaBola_t **jogadas_oponente_bola = (JogadaBola_t **) malloc(sizeof(JogadaBola_t));
-      int tamanho_buffer_jogadas_oponente_filosofo = 0;
-      int tamanho_buffer_jogadas_oponente_bola = 0;
+      int tamanho_buffer_jogadas_oponente_filosofo = campo->tamanho_mapa;
+      int tamanho_buffer_jogadas_oponente_bola = campo->tamanho_mapa;
       int tamanho_jogadas_oponente_filosofo = 0; 
       int tamanho_jogadas_oponente_bola = 0;
 
@@ -132,8 +132,8 @@ int main(int argc, char **argv) {
       printf("utilidade_campo: %d\n", utilidade_campo);
 
       // crias as jogadas possíveis do oponente
-      JogadaFilosofo_t **jogadas_oponente_filosofo = (JogadaFilosofo_t **) malloc(sizeof(JogadaFilosofo_t));
-      JogadaBola_t **jogadas_oponente_bola = (JogadaBola_t **) malloc(sizeof(JogadaBola_t));
+      JogadaFilosofo_t **jogadas_oponente_filosofo = (JogadaFilosofo_t **) malloc(sizeof(JogadaFilosofo_t *) * campo->tamanho_mapa);
+      JogadaBola_t **jogadas_oponente_bola = (JogadaBola_t **) malloc(sizeof(JogadaBola_t *) * campo->tamanho_mapa);
       int tamanho_buffer_jogadas_oponente_filosofo = 0;
       int tamanho_buffer_jogadas_oponente_bola = 0;
       int tamanho_jogadas_oponente_filosofo = 0; 

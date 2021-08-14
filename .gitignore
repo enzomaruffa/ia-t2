@@ -1,4 +1,5 @@
 obj
-solver.dSYM/
+**/*.dSYM
 **/*.o%
 **/*.DS_Store
+**/*.o
