@@ -25,6 +25,11 @@ void clona_campo(EstadoCampo_t *dest, EstadoCampo_t *campo);
 // Destrói um campo da memória
 void destroi_campo(EstadoCampo_t *campo);
 
+// Adiciona as jogadas_bola possíveis
+void adiciona_jogadas_bola(int lado_diff, EstadoCampo_t *campo, int posicao_bola, 
+                        JogadaBola_t **jogadas_bola, int tamanho_buffer_jogadas_bola,
+                        int *tamanho_jogadas_bola);
+
 // Recebe 2 buffers e calcula todas as jogadas possiveis para um campo
 int cria_jogadas_possiveis(EstadoCampo_t *campo,
     JogadaFilosofo_t **jogadas_filosofo, int tamanho_buffer_jogadas_filosofo,
