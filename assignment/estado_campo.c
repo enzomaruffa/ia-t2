@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "estado_campo.h"
 
 void cria_campo(EstadoCampo_t *dest, char meu_lado, char minha_vez, char *mapa, int tamanho_mapa) {
@@ -54,15 +55,15 @@ void adiciona_jogadas_bola(int lado_diff, EstadoCampo_t *campo, int posicao_bola
     posicao_atual_checagem += 1;
 
     while (iterador_checagem < posicao_atual_checagem) {
-        int posicao_checagem = posicoes_checagem[posicao_atual_checagem];
-
+        int posicao_checagem = posicoes_checagem[posicao_atual_checagem-1];
         if (campo->mapa[posicao_checagem] == 'f') {
+            
             // Encontra a posicao de soltar a bola
             int posicao_aterrisagem = posicao_checagem + lado_diff;
             while (campo->mapa[posicao_aterrisagem] == 'f') {
                 posicao_aterrisagem += lado_diff;
             }
-
+            
             // Adiciona na lista de posições de aterrisagem
             posicoes_aterrisagem[posicao_atual_aterrisagem] = posicao_aterrisagem;
             posicao_atual_aterrisagem += 1;
@@ -83,11 +84,13 @@ void adiciona_jogadas_bola(int lado_diff, EstadoCampo_t *campo, int posicao_bola
                 jogada->resulta_em_gol = verifica_gol(campo->meu_lado, posicao_aterrisagem, campo->tamanho_mapa);
             } else if (campo->mapa[posicao_aterrisagem] == '.') {
                 // Enfileira a jogada para ser verificada
-                posicoes_checagem[posicao_atual_checagem] = posicao_aterrisagem + 1;
+                posicoes_checagem[posicao_atual_checagem] = posicao_aterrisagem + lado_diff;
                 posicao_atual_checagem += 1;
             }
         }
+        iterador_checagem++;
     }
+    // printf("tamanho_jogadas_bola: %d", *tamanho_jogadas_bola);
 
     free(posicoes_aterrisagem);
     free(posicoes_checagem);
@@ -116,6 +119,7 @@ int cria_jogadas_possiveis(EstadoCampo_t *campo,
             *tamanho_jogadas_filosofo += 1;
         }
     }
+    
 
     // Acha a bola
     int posicao_bola = -1;
@@ -172,11 +176,11 @@ int aplica_jogada_bola(JogadaBola_t *jogada, EstadoCampo_t *campo) {
 
     int ultima_posicao_bola = jogada->posicao_pulos[jogada->pulos - 1];
 
-    int start = posicao_atual_bola > ultima_posicao_bola ? ultima_posicao_bola : ultima_posicao_bola;
+    int start = posicao_atual_bola > ultima_posicao_bola ? ultima_posicao_bola : posicao_atual_bola;
     int end = posicao_atual_bola > ultima_posicao_bola ? posicao_atual_bola : ultima_posicao_bola;
 
     for (int i = start; i < end + 1; i++) {
-        if (campo->mapa[i] == ultima_posicao_bola) {
+        if (i == ultima_posicao_bola) {
             // Coloca a bola na posicao final
             campo->mapa[i] = 'o';
         } else {

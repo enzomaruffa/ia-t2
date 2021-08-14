@@ -8,6 +8,7 @@ int escreve_jogada_filosofo(char lado, JogadaFilosofo_t *jogada, char *vetor, in
     }
 
     sprintf(vetor, "%c f %d", lado, jogada->posicao);
+    return 0;
 }
 
 void destroi_jogada_filosofo(JogadaFilosofo_t *jogada) {
@@ -26,6 +27,7 @@ int escreve_jogada_bola(char lado, JogadaBola_t *jogada, char *vetor, int tamanh
     for (int i = 0; i < jogada->pulos; i++) {
         sprintf(vetor, "%s %d", vetor, jogada->posicao_pulos[i]);
     }
+    return 0;
 }
 
 void destroi_jogada_bola(JogadaBola_t *jogada) {
