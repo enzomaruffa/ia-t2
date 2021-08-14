@@ -102,9 +102,9 @@ int cria_jogadas_possiveis(EstadoCampo_t *campo,
     JogadaBola_t **jogadas_bola, int tamanho_buffer_jogadas_bola,
     int *tamanho_jogadas_filosofo, int *tamanho_jogadas_bola) {
 
-    if (campo->mapa[0] == 'o' || campo->mapa[campo->tamanho_mapa - 1] == 'o') { 
-        return 1;
-    }
+    // if (campo->mapa[0] == 'o' || campo->mapa[campo->tamanho_mapa - 1] == 'o') { 
+    //     return 1;
+    // }
 
     *tamanho_jogadas_filosofo = 0;
     *tamanho_jogadas_bola = 0;

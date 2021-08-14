@@ -36,6 +36,8 @@ int cria_jogadas_possiveis(EstadoCampo_t *campo,
     JogadaBola_t **jogadas_bola, int tamanho_buffer_jogadas_bola,
     int *tamanho_jogadas_filosofo, int *tamanho_jogadas_bola);
 
+int verifica_gol(char meu_lado, int posicao_aterrisagem, int tamanho_mapa);
+
 // Aplica uma jogada filosofo em um campo
 int aplica_jogada_filosofo(JogadaFilosofo_t *jogada, EstadoCampo_t *campo);
 
