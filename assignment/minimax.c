@@ -5,6 +5,15 @@
 
 // Ideia no momento: o valor de utilidade do estado é o quão distante a bola pode ficar do nosso gol - o quão distante do gol deles
 int calcula_utilidade(EstadoCampo_t *estado) {
+    int meu_gol = estado->meu_lado == 'e' ? 0 : estado->tamanho_mapa;
+    int gol_oponente = estado->meu_lado == 'd' ? 0 : estado->tamanho_mapa;
+
+    if (estado->mapa[meu_gol] == 'o') {
+        return -10000;
+    } else if (estado->mapa[gol_oponente] == 'o') {
+        return 10000;
+    }
+
     int posicao_bola = -1;
     for (int i = 0; i < estado->tamanho_mapa; i++) {
         if (estado->mapa[i] == 'o') {
@@ -24,36 +33,36 @@ int calcula_utilidade(EstadoCampo_t *estado) {
         adiciona_jogadas_bola(-1, estado, posicao_bola, jogadas_bola, tamanho_buffer_jogadas_bola, &tamanho_jogadas_bola);
     }
 
-    int meu_gol = estado->meu_lado == 'e' ? 0 : estado->tamanho_mapa;
-
     int maior_distancia_meu_gol = abs(meu_gol - posicao_bola);
-    int menor_distancia_meu_gol = abs(meu_gol - posicao_bola);
+    int maior_distancia_gol_oponente = abs(gol_oponente - posicao_bola);
 
     for (int i = 0; i < tamanho_jogadas_bola; i++) {
         JogadaBola_t *jogada = jogadas_bola[i];
 
         int posicao_aterrisagem = jogada->posicao_pulos[jogada->pulos - 1];
+
         int distancia_meu_gol = abs(meu_gol - posicao_aterrisagem);
+        int distancia_gol_oponente = abs(gol_oponente - posicao_aterrisagem);
 
         if (distancia_meu_gol > maior_distancia_meu_gol) {
             maior_distancia_meu_gol = distancia_meu_gol;
-        } else if (distancia_meu_gol < menor_distancia_meu_gol) {
-            menor_distancia_meu_gol = distancia_meu_gol;
+        } else if (distancia_gol_oponente < maior_distancia_gol_oponente) {
+            maior_distancia_gol_oponente = distancia_gol_oponente;
         }
     }
 
     // Caso vá perder, aumenta em 1000
-    if (menor_distancia_meu_gol == 0) {
-        menor_distancia_meu_gol += 1000;
+    if (maior_distancia_gol_oponente == estado->tamanho_mapa) {
+        maior_distancia_gol_oponente += 1000;
     }
 
     // Caso vá ganhar, aumenta em 1000
     if (maior_distancia_meu_gol == estado->tamanho_mapa) {
-        menor_distancia_meu_gol += 1000;
+        maior_distancia_meu_gol += 1000;
     }
 
     free(jogadas_bola);
-    return maior_distancia_meu_gol - (menor_distancia_meu_gol * 2);
+    return maior_distancia_meu_gol - (maior_distancia_gol_oponente * 2);
 }
 
 int calcula_utilidade_oponente_bola(EstadoCampo_t *campo,
