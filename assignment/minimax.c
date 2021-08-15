@@ -56,6 +56,10 @@ int calcula_utilidade(EstadoCampo_t *estado) {
     }
 
     // printf("estado->tamanho_mapa: %d\n", estado->tamanho_mapa);
+    // Diminui o peso para evitar chutar desnecessáriamente
+    if (maior_distancia_meu_gol == estado->tamanho_mapa - 2) {
+        maior_distancia_meu_gol -= 3;
+    }
 
     // Caso vá perder, aumenta em 1000
     if (maior_distancia_gol_oponente == estado->tamanho_mapa - 1) {
