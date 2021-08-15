@@ -28,9 +28,8 @@ int escreve_jogada_bola(char lado, JogadaBola_t *jogada, char *vetor, int tamanh
         1;
     }
 
-    sprintf(vetor, "%c o", lado);
+    sprintf(vetor, "%c o %d", lado, jogada->pulos);
 
-    // TODO: Sinceras nem ideia se isso funciona. Testei em um compilador online e deu boa
     for (int i = 0; i < jogada->pulos; i++) {
         sprintf(vetor, "%s %d", vetor, jogada->posicao_pulos[i]);
     }

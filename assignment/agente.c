@@ -72,15 +72,11 @@ int main(int argc, char **argv) {
       }
     }
 
-    int profundidade = 7;
+    int profundidade = 6;
 
     // printf("quantidade_vazio %d", quantidade_vazio);
 
     if (quantidade_vazio > 10) {
-      profundidade = 6;
-    };
-
-    if (quantidade_vazio > 14) {
       profundidade = 5;
     };
     
@@ -96,7 +92,7 @@ int main(int argc, char **argv) {
 
     end = clock();
     seconds = (float)(end - start) / CLOCKS_PER_SEC;
-    // printf("Total time: %f\n", seconds);
+    printf("Total time: %f\n", seconds);
 
     // printf("utilidade: %d\n", utilidade);
     // if (jogada_final->tipo == 1) {
@@ -112,7 +108,7 @@ int main(int argc, char **argv) {
     //   printf("%c", campo->mapa[k]);
     // }
 
-    destroi_campo(campo);
+    memset(buffer, ' ', MAXSTR);
 
     if (jogada_final->tipo == 1) {
       escreve_jogada_bola(campo->meu_lado, (JogadaBola_t *)jogada_final->jogada, buffer, MAXSTR);
@@ -120,8 +116,10 @@ int main(int argc, char **argv) {
     } else if(jogada_final->tipo == 0) {
       escreve_jogada_filosofo(campo->meu_lado, (JogadaFilosofo_t *)jogada_final->jogada, buffer, MAXSTR);
       destroi_jogada_filosofo(jogada_final->jogada);
-    }
+    }; 
+
     free(jogada_final);
+    destroi_campo(campo);
 
     campo_envia(buffer);
   }
