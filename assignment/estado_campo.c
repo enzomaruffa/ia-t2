@@ -7,7 +7,6 @@ void cria_campo(EstadoCampo_t *dest, char meu_lado, char minha_vez, char *mapa, 
     dest->meu_lado = meu_lado;
     dest->minha_vez = minha_vez;
     dest->tamanho_mapa = tamanho_mapa + 2; // Adiciona posição 0 e K+1
-    dest->utilidade_calculada = 0;
 
     dest->mapa = malloc(sizeof(char) * dest->tamanho_mapa);
     memcpy(dest->mapa + 1, mapa, sizeof(char) * tamanho_mapa);
@@ -21,7 +20,6 @@ void clona_campo(EstadoCampo_t *dest, EstadoCampo_t *campo) {
     dest->meu_lado = campo->meu_lado;
     dest->minha_vez = campo->minha_vez;
     dest->tamanho_mapa = campo->tamanho_mapa;
-    dest->utilidade_calculada = campo->utilidade_calculada;
 
     dest->mapa = malloc(sizeof(char) * dest->tamanho_mapa);
     memcpy(dest->mapa, campo->mapa, sizeof(char) * dest->tamanho_mapa);

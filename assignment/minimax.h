@@ -18,9 +18,6 @@ int calcula_utilidade_jogadas_filosofo(EstadoCampo_t *campo,
     JogadaFilosofo_t **jogadas_filosofo, int tamanho_buffer_jogadas_filosofo,
     int *tamanho_jogadas_filosofo);
 
-// Atualiza o valor de utilidade de um campo
-void atualiza_utilidade(EstadoCampo_t *estado);
-
 // Escolhe a melhor jogada para um campo. Pode alterar o parâmetro recebido. 
 int escolhe_jogada(EstadoCampo_t *estado, RespostaJogada_t *resposta_jogada);
 

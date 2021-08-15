@@ -10,8 +10,6 @@ typedef struct {
     // Vetor de caracteres com o mapa. 0 é um gol, tamanho_mapa - 1 é outro
     char *mapa;
 
-    int utilidade_calculada;
-
     // Se for 0, não é a nossa vez. Se 1, sim.
     char minha_vez;
 } EstadoCampo_t;
