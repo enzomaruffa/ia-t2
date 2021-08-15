@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
 
     end = clock();
     seconds = (float)(end - start) / CLOCKS_PER_SEC;
-    printf("Temppo: %f\n", seconds);
+    printf("Tempo: %f\n", seconds);
 
     memset(buffer, ' ', MAXSTR);
 
