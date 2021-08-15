@@ -12,16 +12,20 @@
 
 int main(int argc, char **argv) {
   char buffer[MAXSTR];
-  char *linha;
+  // char *linha;
 
-  // campo_conecta(argc, argv);
+  printf("começa");
+
+  campo_conecta(argc, argv);
+  printf("conecta");
   while(1) {
 
-    // campo_recebe(buf);
-    linha = readline(NULL);
-    if(linha[0] == '0')
-      exit(0);
-    sprintf(buffer, "%s\n", linha);
+    campo_recebe(buffer);
+    printf("recebe [%s]", buffer);
+    // linha = readline(NULL);
+    // if(linha[0] == '0')
+    //   exit(0);
+    // sprintf(buffer, "%s\n", linha);
     
 
     // LEITURA
@@ -109,7 +113,16 @@ int main(int argc, char **argv) {
     // }
 
     destroi_campo(campo);
-    free(linha);
-    // campo_envia(buf);
+
+    if (jogada_final->tipo == 1) {
+      escreve_jogada_bola(campo->meu_lado, (JogadaBola_t *)jogada_final->jogada, buffer, MAXSTR);
+      destroi_jogada_bola(jogada_final->jogada);
+    } else if(jogada_final->tipo == 0) {
+      escreve_jogada_filosofo(campo->meu_lado, (JogadaFilosofo_t *)jogada_final->jogada, buffer, MAXSTR);
+      destroi_jogada_filosofo(jogada_final->jogada);
+    }
+    free(jogada_final);
+
+    campo_envia(buffer);
   }
 }
