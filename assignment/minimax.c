@@ -224,7 +224,7 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
                 printf("%c", estados[i]->mapa[k]);
             }
             printf("    Jogada resultou em %d\n", nova_utilidade);
-            if (nova_utilidade >= utilidade) {
+            if (nova_utilidade > utilidade) {
                 utilidade = nova_utilidade;
                 indice_estado = i;
             } 
@@ -240,7 +240,7 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
                 printf("%c", estados[i]->mapa[k]);
             }
             printf("    Jogada resultou em %d\n", nova_utilidade);
-            if (nova_utilidade <= utilidade) {
+            if (nova_utilidade < utilidade) {
                 utilidade = nova_utilidade;
                 indice_estado = i;
             } 

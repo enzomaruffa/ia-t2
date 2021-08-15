@@ -100,7 +100,10 @@ int aplica_mov(char *buf, char *campo, int tam,
       if(bola < 0 || bola >= tam)
 	break;
       inc = (--rb[i] < bola) ? -1 : 1;
-      for(j = bola + inc; j != rb[i]; j += inc)
+      j = bola + inc;
+      if(j == rb[i])
+	return 0;
+      for(; j != rb[i]; j += inc)
 	if(buf[j] != 'f')
 	  return 0;
         else
