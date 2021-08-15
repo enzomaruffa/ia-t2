@@ -220,10 +220,10 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
         for (int i = 0; i < tamanho_estados; i++) {
             int nova_utilidade = minimax(estados[i], profundidade - 1, !maximizando);
 
-            // for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
-            //     printf("%c", estados[i]->mapa[k]);
-            // }
-            // printf("    Jogada resultou em %d\n", nova_utilidade);
+            for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
+                printf("%c", estados[i]->mapa[k]);
+            }
+            printf("    Jogada resultou em %d\n", nova_utilidade);
             if (nova_utilidade >= utilidade) {
                 utilidade = nova_utilidade;
                 indice_estado = i;
@@ -236,10 +236,10 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
         for (int i = 0; i < tamanho_estados; i++) {
             int nova_utilidade = minimax(estados[i], profundidade - 1, !maximizando);
 
-            // for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
-            //     printf("%c", estados[i]->mapa[k]);
-            // }
-            // printf("    Jogada resultou em %d\n", nova_utilidade);
+            for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
+                printf("%c", estados[i]->mapa[k]);
+            }
+            printf("    Jogada resultou em %d\n", nova_utilidade);
             if (nova_utilidade <= utilidade) {
                 utilidade = nova_utilidade;
                 indice_estado = i;
@@ -247,7 +247,7 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
         }
     }
 
-    // printf("Melhor jogada tem utilidade %d\n", utilidade);
+    printf("Melhor jogada tem utilidade %d\n", utilidade);
 
     // A partir do indice do estado, encontra a jogada
     if (indice_estado < tamanho_jogadas_bola) {

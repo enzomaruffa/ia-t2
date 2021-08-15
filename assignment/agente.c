@@ -14,14 +14,12 @@ int main(int argc, char **argv) {
   char buffer[MAXSTR];
   // char *linha;
 
-  printf("começa");
-
   campo_conecta(argc, argv);
-  printf("conecta");
   while(1) {
 
     campo_recebe(buffer);
-    printf("recebe [%s]", buffer);
+    printf("RECEBEU [%s]", buffer);
+    printf("\n");
     // linha = readline(NULL);
     // if(linha[0] == '0')
     //   exit(0);
@@ -117,6 +115,9 @@ int main(int argc, char **argv) {
       escreve_jogada_filosofo(campo->meu_lado, (JogadaFilosofo_t *)jogada_final->jogada, buffer, MAXSTR);
       destroi_jogada_filosofo(jogada_final->jogada);
     }; 
+
+    printf("ENVIANDO [%s]", buffer);
+    printf("\n");
 
     free(jogada_final);
     destroi_campo(campo);
