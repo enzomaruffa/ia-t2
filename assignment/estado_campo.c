@@ -25,6 +25,11 @@ void clona_campo(EstadoCampo_t *dest, EstadoCampo_t *campo) {
     memcpy(dest->mapa, campo->mapa, sizeof(char) * dest->tamanho_mapa);
 }
 
+void destroi_campo(EstadoCampo_t *campo) {
+    free(campo->mapa);
+    free(campo);
+}
+
 int verifica_gol(char meu_lado, int posicao_aterrisagem, int tamanho_mapa) {
     // Se a posicao for o gol, faz uma jogada de gol
     if (meu_lado == 'd' && posicao_aterrisagem == tamanho_mapa - 1) {
@@ -33,8 +38,24 @@ int verifica_gol(char meu_lado, int posicao_aterrisagem, int tamanho_mapa) {
         return 1; // Gol a favor
     } else if (meu_lado == 'e' && posicao_aterrisagem == tamanho_mapa - 1) {
         return 1; // Gol a favor
-    } 
-    return -1; // Gol contra
+    } else if (meu_lado == 'e' && posicao_aterrisagem == 0) {
+       return -1; // Gol contra
+    }
+    return 0;
+}
+
+int verifica_vitorioso(EstadoCampo_t *campo) {
+    if (campo->meu_lado == 'd' && campo->mapa[0] == 'o') {
+        return 1; // Ganhei
+    } else if (campo->meu_lado == 'e' && campo->mapa[0] == 'o') {
+        return -1; // Perdi
+    } else if (campo->meu_lado == 'd' && campo->mapa[campo->tamanho_mapa - 1] == 'o') {
+        return -1; // Perdi
+    } else if (campo->meu_lado == 'e' && campo->mapa[campo->tamanho_mapa - 1] == 'o') {
+        return 1; // Ganhei
+    }
+
+    return 0; 
 }
 
 void adiciona_jogadas_bola(int lado_diff, EstadoCampo_t *campo, int posicao_bola, 

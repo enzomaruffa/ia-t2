@@ -36,6 +36,9 @@ int cria_jogadas_possiveis(EstadoCampo_t *campo,
 
 int verifica_gol(char meu_lado, int posicao_aterrisagem, int tamanho_mapa);
 
+// Retorna -1 caso perdemos, 0 caso não ganhou ainda e 1 caso ganhou
+int verifica_vitorioso(EstadoCampo_t *campo);
+
 // Aplica uma jogada filosofo em um campo
 int aplica_jogada_filosofo(JogadaFilosofo_t *jogada, EstadoCampo_t *campo);
 

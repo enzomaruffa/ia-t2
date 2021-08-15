@@ -21,4 +21,7 @@ int calcula_utilidade_jogadas_filosofo(EstadoCampo_t *campo,
 // Escolhe a melhor jogada para um campo. Pode alterar o parâmetro recebido. 
 int escolhe_jogada(EstadoCampo_t *estado, RespostaJogada_t *resposta_jogada);
 
+// Minimax
+int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profundidade, int maximizando);
+
 #endif

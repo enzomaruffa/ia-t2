@@ -8,6 +8,9 @@ typedef struct {
 // Escreve a jogada do filosofo
 int escreve_jogada_filosofo(char lado, JogadaFilosofo_t *jogada, char *vetor, int tamanho_vetor);
 
+// Clona uma jogada filósofo
+int clona_jogada_filosof(JogadaFilosofo_t *dest, JogadaFilosofo_t *jogada);
+
 // Destrói uma jogada filosofo
 void destroi_jogada_filosofo(JogadaFilosofo_t *jogada);
 
@@ -21,6 +24,9 @@ typedef struct {
 
 // Escreve a jogada da bola
 int escreve_jogada_bola(char lado, JogadaBola_t *jogada, char *vetor, int tamanho_vetor);
+
+// Clona uma jogada bola
+int clona_jogada_bola(JogadaBola_t *dest, JogadaBola_t *jogada);
 
 // Destrói uma jogada bola
 void destroi_jogada_bola(JogadaBola_t *jogada);
