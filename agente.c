@@ -56,6 +56,19 @@ int main(int argc, char **argv) {
 
     EstadoCampo_t *campo = (EstadoCampo_t *) malloc(sizeof(EstadoCampo_t));
     cria_campo(campo, lado_campo, 1, mapa, tamanho_campo);
+
+    // Verifica se acabou: 
+
+    int posicao_bola = -1;
+    for (int i = 0; i < campo->tamanho_mapa; i++) {
+        if (campo->mapa[i] == 'o') {
+            posicao_bola = i;
+        }
+    }
+
+    if (posicao_bola < 0) {
+      return 0;
+    }
     
     // printf("campo criado: \n");
     // for (int k = 0; k < campo->tamanho_mapa; ++k) {
