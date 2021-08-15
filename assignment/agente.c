@@ -70,13 +70,13 @@ int main(int argc, char **argv) {
       }
     }
 
-    int profundidade = 9;
+    int profundidade = 8;
 
-    // printf("quantidade_vazio %d", quantidade_vazio);
+    printf("quantidade_vazio %d", quantidade_vazio);
 
-    // if (quantidade_vazio > 10) {
-    //   profundidade = 5;
-    // };
+    if (quantidade_vazio > 14) {
+      profundidade = 7;
+    };
     
     RespostaJogada_t *jogada_final = malloc(sizeof(RespostaJogada_t));
 
