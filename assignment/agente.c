@@ -12,20 +12,20 @@
 
 int main(int argc, char **argv) {
   char buffer[MAXSTR];
-  // char *linha;
+  char *linha;
 
-  printf("começa");
+  // printf("começa");
 
-  campo_conecta(argc, argv);
-  printf("conecta");
+  // campo_conecta(argc, argv);
+  // printf("conecta");
   while(1) {
 
-    campo_recebe(buffer);
-    printf("recebe [%s]", buffer);
-    // linha = readline(NULL);
-    // if(linha[0] == '0')
-    //   exit(0);
-    // sprintf(buffer, "%s\n", linha);
+    // campo_recebe(buffer);
+    // printf("recebe [%s]", buffer);
+    linha = readline(NULL);
+    if(linha[0] == '0')
+      exit(0);
+    sprintf(buffer, "%s\n", linha);
     
 
     // LEITURA
@@ -72,15 +72,11 @@ int main(int argc, char **argv) {
       }
     }
 
-    int profundidade = 7;
+    int profundidade = 6;
 
     // printf("quantidade_vazio %d", quantidade_vazio);
 
-    if (quantidade_vazio > 10) {
-      profundidade = 6;
-    };
-
-    if (quantidade_vazio > 14) {
+    if (quantidade_vazio > 5) {
       profundidade = 5;
     };
     
@@ -98,21 +94,18 @@ int main(int argc, char **argv) {
     seconds = (float)(end - start) / CLOCKS_PER_SEC;
     // printf("Total time: %f\n", seconds);
 
-    // printf("utilidade: %d\n", utilidade);
-    // if (jogada_final->tipo == 1) {
-    //   aplica_jogada_bola(jogada_final->jogada, campo);
-      // escreve_jogada_bola();
-    // } else if(jogada_final->tipo == 0) {
-    //   aplica_jogada_filosofo(jogada_final->jogada, campo);
-      // escreve_jogada_filosofo();
-    // }
+    if (jogada_final->tipo == 1) {
+      aplica_jogada_bola(jogada_final->jogada, campo);
+    } else if(jogada_final->tipo == 0) {
+      aplica_jogada_filosofo(jogada_final->jogada, campo);
+    }
 
-    // printf("campo_final: ");
-    // for (int k = 0; k < campo->tamanho_mapa; ++k) {
-    //   printf("%c", campo->mapa[k]);
-    // }
-
-    destroi_campo(campo);
+    printf("campo_final: ");
+    for (int k = 0; k < campo->tamanho_mapa; ++k) {
+      printf("%c", campo->mapa[k]);
+    }
+    
+    memset(buffer, ' ', MAXSTR);
 
     if (jogada_final->tipo == 1) {
       escreve_jogada_bola(campo->meu_lado, (JogadaBola_t *)jogada_final->jogada, buffer, MAXSTR);
@@ -121,8 +114,12 @@ int main(int argc, char **argv) {
       escreve_jogada_filosofo(campo->meu_lado, (JogadaFilosofo_t *)jogada_final->jogada, buffer, MAXSTR);
       destroi_jogada_filosofo(jogada_final->jogada);
     }
-    free(jogada_final);
 
-    campo_envia(buffer);
+    printf("Jogada: [%s]", buffer);
+
+    free(jogada_final);
+    destroi_campo(campo);
+
+    // campo_envia(buffer);
   }
 }
