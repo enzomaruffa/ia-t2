@@ -22,7 +22,7 @@ int calcula_utilidade(EstadoCampo_t *estado) {
     }
     
     int tamanho_buffer_jogadas_bola = estado->tamanho_mapa;
-    JogadaBola_t **jogadas_bola = malloc(sizeof(JogadaBola_t) * estado->tamanho_mapa);
+    JogadaBola_t **jogadas_bola = malloc(sizeof(JogadaBola_t *) * estado->tamanho_mapa);
     int tamanho_jogadas_bola = 0;
 
     // Gera jogadas da bola
@@ -78,54 +78,6 @@ int calcula_utilidade(EstadoCampo_t *estado) {
     return maior_distancia_meu_gol - (maior_distancia_gol_oponente * 2);
 }
 
-int calcula_utilidade_oponente_bola(EstadoCampo_t *campo,
-    JogadaBola_t **jogadas_oponente_bola, int tamanho_buffer_jogadas_bola,
-    int *tamanho_jogadas_oponente_bola) {
-    int menor_utilidade = 10000;
-
-    printf("tamanho_jogadas_oponente_bola: %d\n", *tamanho_jogadas_oponente_bola);
-    for(int i = 0; i < *tamanho_jogadas_oponente_bola; ++i) {
-        // copia campo
-        EstadoCampo_t *campo_aux_oponente_bola = (EstadoCampo_t *) malloc(sizeof(EstadoCampo_t));
-        clona_campo(campo_aux_oponente_bola, campo);
-
-        // realiza jogada 
-        aplica_jogada_bola(jogadas_oponente_bola[i], campo_aux_oponente_bola);
-
-        // calcula utilidade das jogadas do oponente
-        int utilidade_atual = calcula_utilidade(campo_aux_oponente_bola);
-
-        // pega a menor utilidade deles e coloca na nossa jogada atual
-        if(menor_utilidade > utilidade_atual) {
-            menor_utilidade = utilidade_atual;
-        }
-    }
-    return menor_utilidade;
-}
-
-int calcula_utilidade_oponente_filosofo(EstadoCampo_t *campo,
-    JogadaFilosofo_t **jogadas_oponente_filosofo, int tamanho_buffer_jogadas_filosofo,
-    int *tamanho_jogadas_oponente_filosofo) {
-    int menor_utilidade = 10000;
-    printf("tamanho_jogadas_oponente_filosofo: %d\n", *tamanho_jogadas_oponente_filosofo);
-    for(int j = 0; j < *tamanho_jogadas_oponente_filosofo; ++j) {
-        // copia campo
-        EstadoCampo_t *campo_aux_oponente_filosofo = (EstadoCampo_t *) malloc(sizeof(EstadoCampo_t));
-        clona_campo(campo_aux_oponente_filosofo, campo);
-
-        // realiza jogada 
-        aplica_jogada_filosofo(jogadas_oponente_filosofo[j], campo_aux_oponente_filosofo);
-        
-        // calcula utilidade das jogadas do oponente
-        int utilidade_atual = calcula_utilidade(campo_aux_oponente_filosofo);
-        // pega a menor utilidade deles e coloca na nossa jogada atual
-        if(menor_utilidade > utilidade_atual) {
-            menor_utilidade = utilidade_atual;
-        }
-    }
-    return menor_utilidade;
-}
-
 // Retorna o valor heurístico desse caminho
 int minimax(EstadoCampo_t *estado, int profundidade, int maximizando) {
     int algum_vitorioso = verifica_vitorioso(estado);
@@ -174,6 +126,7 @@ int minimax(EstadoCampo_t *estado, int profundidade, int maximizando) {
         // Para cada jogada, roda minimax normal passando maximinzando como o oposto
         for (int i = 0; i < tamanho_estados; i++) {
             int nova_utilidade = minimax(estados[i], profundidade - 1, !maximizando);
+
             if (nova_utilidade > utilidade) {
                 utilidade = nova_utilidade;
             } 
@@ -184,6 +137,7 @@ int minimax(EstadoCampo_t *estado, int profundidade, int maximizando) {
         // Para cada jogada, roda minimax normal passando maximinzando como o oposto
         for (int i = 0; i < tamanho_estados; i++) {
             int nova_utilidade = minimax(estados[i], profundidade - 1, !maximizando);
+
             if (nova_utilidade < utilidade) {
                 utilidade = nova_utilidade;
             } 
@@ -195,6 +149,7 @@ int minimax(EstadoCampo_t *estado, int profundidade, int maximizando) {
         destroi_jogada_bola(jogadas_bola[i]);
     }
     free(jogadas_bola);
+
 
     for (int i = 0; i < tamanho_jogadas_filosofo; i++) {
         destroi_jogada_filosofo(jogadas_filosofo[i]);
@@ -232,9 +187,6 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
     cria_jogadas_possiveis(estado, jogadas_filosofo, tamanho_buffer_jogadas_filosofo,
     jogadas_bola, tamanho_buffer_jogadas_bola, &tamanho_jogadas_filosofo, &tamanho_jogadas_bola);
 
-    printf("    Jogadas bola possíveis: %d\n",tamanho_jogadas_bola);
-    printf("    Jogadas filosofo possíveis: %d\n",tamanho_jogadas_filosofo);
-
     // Cria os estados possíveis
     int tamanho_estados = tamanho_jogadas_bola + tamanho_jogadas_filosofo;
     EstadoCampo_t **estados = malloc(sizeof(EstadoCampo_t *) * tamanho_estados);
@@ -264,10 +216,10 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
         for (int i = 0; i < tamanho_estados; i++) {
             int nova_utilidade = minimax(estados[i], profundidade - 1, !maximizando);
 
-            for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
-                printf("%c", estados[i]->mapa[k]);
-            }
-            printf("    Jogada resultou em %d\n", nova_utilidade);
+            // for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
+            //     printf("%c", estados[i]->mapa[k]);
+            // }
+            // printf("    Jogada resultou em %d\n", nova_utilidade);
             if (nova_utilidade >= utilidade) {
                 utilidade = nova_utilidade;
                 indice_estado = i;
@@ -279,6 +231,11 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
         // Para cada jogada, roda minimax normal passando maximinzando como o oposto
         for (int i = 0; i < tamanho_estados; i++) {
             int nova_utilidade = minimax(estados[i], profundidade - 1, !maximizando);
+
+            // for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
+            //     printf("%c", estados[i]->mapa[k]);
+            // }
+            // printf("    Jogada resultou em %d\n", nova_utilidade);
             if (nova_utilidade <= utilidade) {
                 utilidade = nova_utilidade;
                 indice_estado = i;
@@ -286,7 +243,7 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
         }
     }
 
-    printf("Melhor jogada tem utilidade %d\n", utilidade);
+    // printf("Melhor jogada tem utilidade %d\n", utilidade);
 
     // A partir do indice do estado, encontra a jogada
     if (indice_estado < tamanho_jogadas_bola) {

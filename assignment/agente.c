@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -22,8 +23,9 @@ int main(int argc, char **argv) {
       exit(0);
     sprintf(buffer, "%s\n", linha);
     
-    char *pch;
 
+    // LEITURA
+    char *pch;
     // Pega o lado
     pch = strtok(buffer, " ");
     if (pch == NULL) { return 1; }
@@ -46,41 +48,68 @@ int main(int argc, char **argv) {
     char *mapa = (char *) malloc(sizeof(char) * tamanho_campo);
     for (int i = 0; i < tamanho_campo; ++i) {
       mapa[i] = pch[i];
-      printf("%c", mapa[i]);
+      // printf("%c", mapa[i]);
     }
-    printf("\n");
+    // printf("\n");
 
     EstadoCampo_t *campo = (EstadoCampo_t *) malloc(sizeof(EstadoCampo_t));
     cria_campo(campo, lado_campo, 1, mapa, tamanho_campo);
     
-    printf("campo criado: \n");
+    // printf("campo criado: \n");
+    // for (int k = 0; k < campo->tamanho_mapa; ++k) {
+    //   printf("%c", campo->mapa[k]);
+    // }
+    // printf("\n");
+
+    int quantidade_vazio = 0;
     for (int k = 0; k < campo->tamanho_mapa; ++k) {
-      printf("%c", campo->mapa[k]);
+      if (campo->mapa[k] == '.') {
+        quantidade_vazio += 1;
+      }
     }
-    printf("\n");
+
+    int profundidade = 7;
+
+    // printf("quantidade_vazio %d", quantidade_vazio);
+
+    if (quantidade_vazio > 10) {
+      profundidade = 6;
+    };
+
+    if (quantidade_vazio > 14) {
+      profundidade = 5;
+    };
     
     RespostaJogada_t *jogada_final = malloc(sizeof(RespostaJogada_t));
-    int utilidade = minimax_inicial(jogada_final, campo, 4, 1);
 
-    printf("utilidade: %d\n", utilidade);
-    if (jogada_final->tipo == 1) {
-      aplica_jogada_bola(jogada_final->jogada, campo);
+    clock_t start;
+    clock_t end;
+    float seconds;
+
+    // ==== 
+    start = clock();
+    minimax_inicial(jogada_final, campo, profundidade, 1);
+
+    end = clock();
+    seconds = (float)(end - start) / CLOCKS_PER_SEC;
+    // printf("Total time: %f\n", seconds);
+
+    // printf("utilidade: %d\n", utilidade);
+    // if (jogada_final->tipo == 1) {
+    //   aplica_jogada_bola(jogada_final->jogada, campo);
       // escreve_jogada_bola();
-    } else if(jogada_final->tipo == 0) {
-      aplica_jogada_filosofo(jogada_final->jogada, campo);
+    // } else if(jogada_final->tipo == 0) {
+    //   aplica_jogada_filosofo(jogada_final->jogada, campo);
       // escreve_jogada_filosofo();
-    }
+    // }
 
-    printf("campo_final: ");
-    for (int k = 0; k < campo->tamanho_mapa; ++k) {
-      printf("%c", campo->mapa[k]);
-    }
+    // printf("campo_final: ");
+    // for (int k = 0; k < campo->tamanho_mapa; ++k) {
+    //   printf("%c", campo->mapa[k]);
+    // }
 
-    printf("\n");
+    destroi_campo(campo);
     free(linha);
-    free(mapa);
-    // destroi_campo(campo);
-
     // campo_envia(buf);
   }
 }

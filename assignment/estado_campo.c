@@ -63,12 +63,12 @@ void adiciona_jogadas_bola(int lado_diff, EstadoCampo_t *campo, int posicao_bola
                         int *tamanho_jogadas_bola) {
     // Guarda as posições que a bola está aterrisando
     int posicao_atual_aterrisagem = 0;
-    int *posicoes_aterrisagem = malloc(sizeof(campo->tamanho_mapa));
+    int *posicoes_aterrisagem = malloc(sizeof(int) * campo->tamanho_mapa);
 
     // Guarda as posições que devemos checar
     int posicao_atual_checagem = 0;
     int iterador_checagem = 0;
-    int *posicoes_checagem = malloc(sizeof(campo->tamanho_mapa));
+    int *posicoes_checagem = malloc(sizeof(int) * campo->tamanho_mapa);
 
     posicoes_checagem[0] = posicao_bola + lado_diff;
     posicao_atual_checagem += 1;
