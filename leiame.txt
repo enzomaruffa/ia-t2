@@ -1,0 +1,25 @@
+emm17 - GRR20171626
+ndm17 - GRR20171605
+
+Phutball - Trabalho 2 de IA 
+
+----------------
+A estratégia utilizada pelo agente é a execução do minimax com profundidade variável (de acordo com quão vazio o mapa está).
+A heurística é baseada na distância da bola dos dois gols, com uma exceção que adiciona uma punição para caso a bola fique presa "na frente" do gol.
+
+Explicação detalhada:
+
+Dado um estado do mapa, a heurística retorna a utilidade com a seguinte fórmula:
+- calcular, com base nas jogadas possíveis, qual na próxima jogada é a maior distância possível do meu gol e a maior distânca possível do gol do meu oponente
+- com base nas maiores distâncias, segue a fórmula: 
+    - base: maior distância do meu gol - (maior distância do gol do oponente * 2)
+        - O objetivo é encorajar o bot a jogar a bola para longe do próprio gol, mas também beneficiando para se aproximar do gol do oponente 
+    - exceção: se o campo já possuí algum gol marcado, o valor é -10000 ou 10000 (contra e a favor, relativamente)
+    - exceção: se a maior distância do meu gol for igual ao tamanho do mapa menos um (ou seja, colado no gol do oponente) a maior distância é diminuida em 3 (para desencorajar e piorar a escolha)
+    - exceção: se a maior distância do meu gol é 0 (ou seja, um gol pode ser feito pelo oponente, a utilidade recebe mais -1000)
+    - exceção: se a maior distância do gol do oponente é 0 (ou seja, um gol pode ser feito por mim, a utilidade recebe mais +1000)
+- supondo que a recursão do minmax entre prematuramente em um estado de fim de jogo (ou seja, antes de esgotar a profundidade), o valor é múltiplicado pela profundidade restante
+    - assim, é preferivel fazer um gol em 2 jogadas do que em 3 jogadas (profundidade n e profundidade n-1, respectivamente, multiplicando o resultado da função de utilidade)
+
+Outros tópicos: 
+- Algumas estruturas adicionais foram implementadas para facilitar o desenvolvimento e processamento, porém nem todas as propriedades são utlizadas de fato. 

@@ -1,0 +1,34 @@
+A configuração do campo é dada por  uma linha em formato texto, com os
+seguintes elementos separados por espaços:
+
+  - um caractere  "e" ou  "d", indicando  de que lado  do campo  o seu
+    jogador está;
+
+  - um número inteiro impar K, indicando o tamanho do campo;
+
+  - uma  sequência de  K  caracteres (string)  com  a configuração  do
+    campo, onde "." indica uma posição livre, "f" indica um filósofo e
+    "o" indica a bola.
+
+Os índices das posições no campo vão de 1 até K.
+
+As ações são  dadas por uma linha  em formato texto que  inicia com um
+caractere "e" ou  "d", indicando de qual jogador é  a ação, seguido de
+um espaço e da descrição da ação:
+
+  - a ação  de inserir um  novo filósofo no campo  é dada por  um "f",
+    seguido de um espaço  e um número inteiro entre 1  e K indicando a
+    posição do campo onde o filósofo será inserido;
+
+  - a ação de mover a bola é dada por um "o", seguido de um espaço, um
+    número  inteiro indicando  o  número de  saltos  do movimento,  um
+    espaço e uma sequência de números inteiros entre 0 e K+1 separados
+    por espaços, indicando as posições de destino de cada salto;
+
+  - uma ação especial nula, dada  pelo caractere "n", pode  ocorrer em
+    casos especiais como: início de jogo, fim de jogo, ações inválidas
+    ou violação do tempo de resposta de 5 segundos.
+
+Um salto da bola que resulta em gol  deve ser o último e deve ter como
+destino uma  posição fora do  campo. Este  destino é uma  das posições
+especiais: 0 para o lado esquerdo e K+1 para o lado direito.

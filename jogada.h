@@ -6,7 +6,13 @@ typedef struct {
 } JogadaFilosofo_t;
 
 // Escreve a jogada do filosofo
-void escreve_jogada_filosofo(char lado, JogadaFilosofo_t *jogada, char *vetor, int tamanho_vetor);
+int escreve_jogada_filosofo(char lado, JogadaFilosofo_t *jogada, char *vetor, int tamanho_vetor);
+
+// Clona uma jogada filósofo
+int clona_jogada_filosof(JogadaFilosofo_t *dest, JogadaFilosofo_t *jogada);
+
+// Destrói uma jogada filosofo
+void destroi_jogada_filosofo(JogadaFilosofo_t *jogada);
 
 typedef struct {
     int pulos;
@@ -17,7 +23,13 @@ typedef struct {
 } JogadaBola_t;
 
 // Escreve a jogada da bola
-void escreve_jogada_bola(char lado, JogadaBola_t *jogada, char *vetor, int tamanho_vetor);
+int escreve_jogada_bola(char lado, JogadaBola_t *jogada, char *vetor, int tamanho_vetor);
+
+// Clona uma jogada bola
+int clona_jogada_bola(JogadaBola_t *dest, JogadaBola_t *jogada);
+
+// Destrói uma jogada bola
+void destroi_jogada_bola(JogadaBola_t *jogada);
 
 // Deve ser typecasted por quem for usar
 typedef struct {
