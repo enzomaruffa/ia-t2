@@ -70,13 +70,13 @@ int main(int argc, char **argv) {
       }
     }
 
-    int profundidade = 6;
+    int profundidade = 9;
 
     // printf("quantidade_vazio %d", quantidade_vazio);
 
-    if (quantidade_vazio > 10) {
-      profundidade = 5;
-    };
+    // if (quantidade_vazio > 10) {
+    //   profundidade = 5;
+    // };
     
     RespostaJogada_t *jogada_final = malloc(sizeof(RespostaJogada_t));
 
@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
 
     // ==== 
     start = clock();
-    minimax_inicial(jogada_final, campo, profundidade, 1);
+    alphabeta_inicial(jogada_final, campo, profundidade, -1000000, 1000000, 1);
 
     end = clock();
     seconds = (float)(end - start) / CLOCKS_PER_SEC;

@@ -287,3 +287,253 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
     // Retorna o valor heurístico de acordo com o critério
     return utilidade;
 }
+
+
+
+// Retorna o valor heurístico desse caminho
+int alphabeta(EstadoCampo_t *estado, int profundidade, int alpha, int beta, int maximizando) {
+    int algum_vitorioso = verifica_vitorioso(estado);
+
+    if (profundidade == 0) {
+        return calcula_utilidade(estado);
+    }
+
+    if (algum_vitorioso) {
+        return calcula_utilidade(estado) * profundidade;
+    }
+
+    // Pega todas as jogadas que podem ser feitas
+    JogadaFilosofo_t **jogadas_filosofo = (JogadaFilosofo_t **) malloc(sizeof(JogadaFilosofo_t *) * estado->tamanho_mapa);
+    JogadaBola_t **jogadas_bola = (JogadaBola_t **) malloc(sizeof(JogadaBola_t *) * estado->tamanho_mapa);
+    int tamanho_buffer_jogadas_filosofo = estado->tamanho_mapa;
+    int tamanho_buffer_jogadas_bola = estado->tamanho_mapa;
+    int tamanho_jogadas_filosofo = 0; 
+    int tamanho_jogadas_bola = 0;
+
+    // Cria todas as jogadas possíveis
+    cria_jogadas_possiveis(estado, jogadas_filosofo, tamanho_buffer_jogadas_filosofo,
+    jogadas_bola, tamanho_buffer_jogadas_bola, &tamanho_jogadas_filosofo, &tamanho_jogadas_bola);
+
+
+    // Cria os estados possíveis
+    int tamanho_estados = tamanho_jogadas_bola + tamanho_jogadas_filosofo;
+    EstadoCampo_t **estados = malloc(sizeof(EstadoCampo_t *) * tamanho_estados);
+
+    for (int i = 0; i < tamanho_jogadas_bola; i++) {
+        EstadoCampo_t *novo_campo = malloc(sizeof(EstadoCampo_t));
+        clona_campo(novo_campo, estado);
+        aplica_jogada_bola(jogadas_bola[i], novo_campo);
+        estados[i] = novo_campo;
+    }
+
+    for (int i = tamanho_jogadas_bola; i < tamanho_estados; i++) {
+        int indice_filosofo = i - tamanho_jogadas_bola;
+        EstadoCampo_t *novo_campo = malloc(sizeof(EstadoCampo_t));
+        clona_campo(novo_campo, estado);
+        aplica_jogada_filosofo(jogadas_filosofo[indice_filosofo], novo_campo);
+        estados[i] = novo_campo;
+    }
+
+    int utilidade = 0;
+    int novo_alpha = alpha;
+    int novo_beta = beta;
+
+    if (maximizando) {
+        utilidade = -100000;
+
+        // Para cada jogada, roda alphabeta normal passando maximinzando como o oposto
+        for (int i = 0; i < tamanho_estados; i++) {
+            int nova_utilidade = alphabeta(estados[i], profundidade - 1, novo_alpha, novo_beta, !maximizando);
+
+            if (nova_utilidade > utilidade) {
+                utilidade = nova_utilidade;
+            } 
+
+            if (utilidade >= novo_beta) {
+                break;
+            }
+
+            if (nova_utilidade > novo_alpha) {
+                novo_alpha = nova_utilidade;
+            }
+        }
+    } else {
+        utilidade = 100000;
+
+        // Para cada jogada, roda alphabeta normal passando maximinzando como o oposto
+        for (int i = 0; i < tamanho_estados; i++) {
+            int nova_utilidade = alphabeta(estados[i], profundidade - 1, novo_alpha, novo_beta, !maximizando);
+
+            if (nova_utilidade < utilidade) {
+                utilidade = nova_utilidade;
+            } 
+
+            if (utilidade <= novo_alpha) {
+                break;
+            }
+
+            if (nova_utilidade < novo_beta) {
+                novo_beta = nova_utilidade;
+            }
+        }
+    }
+
+    // Libera memória
+    for (int i = 0; i < tamanho_jogadas_bola; i++) {
+        destroi_jogada_bola(jogadas_bola[i]);
+    }
+    free(jogadas_bola);
+
+
+    for (int i = 0; i < tamanho_jogadas_filosofo; i++) {
+        destroi_jogada_filosofo(jogadas_filosofo[i]);
+    }
+    free(jogadas_filosofo);
+
+    for (int i = 0; i < tamanho_estados; i++) {
+        destroi_campo(estados[i]);
+    }
+    free(estados);
+
+    // Retorna o valor heurístico de acordo com o critério
+    return utilidade;
+}
+
+
+
+// Retorna o valor heurístico desse caminho
+int alphabeta_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profundidade, int alpha, int beta, int maximizando) {
+    int algum_vitorioso = verifica_vitorioso(estado);
+
+    if (profundidade == 0 || algum_vitorioso) {
+        jogada->tipo = 2;
+        jogada->jogada = NULL;
+        return 0;
+    }
+
+    // Pega todas as jogadas que podem ser feitas
+    JogadaFilosofo_t **jogadas_filosofo = (JogadaFilosofo_t **) malloc(sizeof(JogadaFilosofo_t *) * estado->tamanho_mapa);
+    JogadaBola_t **jogadas_bola = (JogadaBola_t **) malloc(sizeof(JogadaBola_t *) * estado->tamanho_mapa);
+    int tamanho_buffer_jogadas_filosofo = estado->tamanho_mapa;
+    int tamanho_buffer_jogadas_bola = estado->tamanho_mapa;
+    int tamanho_jogadas_filosofo = 0; 
+    int tamanho_jogadas_bola = 0;
+
+    // Cria todas as jogadas possíveis
+    cria_jogadas_possiveis(estado, jogadas_filosofo, tamanho_buffer_jogadas_filosofo,
+    jogadas_bola, tamanho_buffer_jogadas_bola, &tamanho_jogadas_filosofo, &tamanho_jogadas_bola);
+
+
+    // Cria os estados possíveis
+    int tamanho_estados = tamanho_jogadas_bola + tamanho_jogadas_filosofo;
+    EstadoCampo_t **estados = malloc(sizeof(EstadoCampo_t *) * tamanho_estados);
+
+    for (int i = 0; i < tamanho_jogadas_bola; i++) {
+        EstadoCampo_t *novo_campo = malloc(sizeof(EstadoCampo_t));
+        clona_campo(novo_campo, estado);
+        aplica_jogada_bola(jogadas_bola[i], novo_campo);
+        estados[i] = novo_campo;
+    }
+
+    for (int i = tamanho_jogadas_bola; i < tamanho_estados; i++) {
+        int indice_filosofo = i - tamanho_jogadas_bola;
+        EstadoCampo_t *novo_campo = malloc(sizeof(EstadoCampo_t));
+        clona_campo(novo_campo, estado);
+        aplica_jogada_filosofo(jogadas_filosofo[indice_filosofo], novo_campo);
+        estados[i] = novo_campo;
+    }
+
+    int utilidade = 0;
+    int novo_alpha = alpha;
+    int novo_beta = beta;
+    int indice_estado = -1;
+
+    if (maximizando) {
+        utilidade = -100000;
+
+        // Para cada jogada, roda alphabeta normal passando maximinzando como o oposto
+        for (int i = 0; i < tamanho_estados; i++) {
+            int nova_utilidade = alphabeta(estados[i], profundidade - 1, novo_alpha, novo_beta, !maximizando);
+
+            if (nova_utilidade > utilidade) {
+                utilidade = nova_utilidade;
+                indice_estado = i;
+            } 
+
+            for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
+                printf("%c", estados[i]->mapa[k]);
+            }
+            printf("    Jogada resultou em %d. Novo alpha e novo beta são: %d, %d\n", nova_utilidade, novo_alpha, novo_beta);
+
+            if (utilidade >= novo_beta) {
+                break;
+            }
+
+            if (nova_utilidade > novo_alpha) {
+                novo_alpha = nova_utilidade;
+            }
+        }
+    } else {
+        utilidade = 100000;
+
+        // Para cada jogada, roda alphabeta normal passando maximinzando como o oposto
+        for (int i = 0; i < tamanho_estados; i++) {
+            int nova_utilidade = alphabeta(estados[i], profundidade - 1, novo_alpha, novo_beta, !maximizando);
+
+            if (nova_utilidade < utilidade) {
+                utilidade = nova_utilidade;
+                indice_estado = i;
+            } 
+
+            for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
+                printf("%c", estados[i]->mapa[k]);
+            }
+            printf("    Jogada resultou em %d. alpha e beta são: %d, %d\n", nova_utilidade, novo_alpha, novo_beta);
+
+            if (utilidade <= novo_alpha) {
+                break;
+            }
+
+            if (nova_utilidade < novo_beta) {
+                novo_beta = nova_utilidade;
+            }
+        }
+    }
+
+    printf("Melhor jogada tem utilidade %d\n", utilidade);
+
+    // A partir do indice do estado, encontra a jogada
+    if (indice_estado < tamanho_jogadas_bola) {
+        // É uma jogada bola
+        JogadaBola_t *resultado = malloc(sizeof(JogadaBola_t));
+        clona_jogada_bola(resultado, jogadas_bola[indice_estado]);
+        jogada->tipo = 1;
+        jogada->jogada = (void *) resultado;
+    } else {
+        // É uma jogada filósofo
+        JogadaFilosofo_t *resultado = malloc(sizeof(JogadaFilosofo_t));
+        clona_jogada_filosof(resultado, jogadas_filosofo[indice_estado - tamanho_jogadas_bola]);
+        jogada->tipo = 0;
+        jogada->jogada = (void *) resultado;
+    }
+
+    // Libera memória
+    for (int i = 0; i < tamanho_jogadas_bola; i++) {
+        destroi_jogada_bola(jogadas_bola[i]);
+    }
+    free(jogadas_bola);
+
+
+    for (int i = 0; i < tamanho_jogadas_filosofo; i++) {
+        destroi_jogada_filosofo(jogadas_filosofo[i]);
+    }
+    free(jogadas_filosofo);
+
+    for (int i = 0; i < tamanho_estados; i++) {
+        destroi_campo(estados[i]);
+    }
+    free(estados);
+
+    // Retorna o valor heurístico de acordo com o critério
+    return utilidade;
+}

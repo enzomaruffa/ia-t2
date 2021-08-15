@@ -12,4 +12,7 @@ int escolhe_jogada(EstadoCampo_t *estado, RespostaJogada_t *resposta_jogada);
 // Minimax
 int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profundidade, int maximizando);
 
+// Alphabeta
+int alphabeta_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profundidade, int alpha, int beta, int maximizando);
+
 #endif
