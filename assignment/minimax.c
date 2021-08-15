@@ -79,7 +79,7 @@ int calcula_utilidade(EstadoCampo_t *estado) {
     }
     free(jogadas_bola);
 
-    return maior_distancia_meu_gol - (maior_distancia_gol_oponente * 2);
+    return (maior_distancia_meu_gol * maior_distancia_meu_gol) - (maior_distancia_gol_oponente * maior_distancia_gol_oponente + maior_distancia_gol_oponente);
 }
 
 // Retorna o valor heurístico desse caminho
