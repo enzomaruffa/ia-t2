@@ -17,4 +17,4 @@ estado_campo.o: jogada.h estado_campo.h estado_campo.c
 campo.o: campo.h campo.c
 
 clean:
-	rm -f controlador exemplo1 exemplo2 agente *.o
+	rm -f controlador exemplo1 exemplo2 agente *.o && rm -r *.dSYM
