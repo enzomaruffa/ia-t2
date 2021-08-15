@@ -10,31 +10,45 @@
 #define MAXSTR 512
 
 int main(int argc, char **argv) {
-  char buf[MAXSTR];
-  char lado_campo;
-  int tamanho_campo;
+  char buffer[MAXSTR];
   char *linha;
 
   // campo_conecta(argc, argv);
-
   while(1) {
-    // campo_recebe(buf);
 
+    // campo_recebe(buf);
     linha = readline(NULL);
     if(linha[0] == '0')
       exit(0);
-    sprintf(buf, "%s\n", linha);
+    sprintf(buffer, "%s\n", linha);
+    
+    char *pch;
+
+    // Pega o lado
+    pch = strtok(buffer, " ");
+    if (pch == NULL) { return 1; }
+
+    char lado_campo = 'e';
+    lado_campo = *pch;
+
+    // Pega o tamanho do mapa
+    pch = strtok(NULL, " ");
+    if (pch == NULL) { return 1; }
+
+    // Pega a largura do campo
+    int tamanho_campo = 0;
+    tamanho_campo = atoi(pch);
+
+    pch = strtok(NULL, " ");
+    if (pch == NULL) { return 1; }
 
     // Define as informações da linha
-    lado_campo = linha[0];
-    tamanho_campo = linha[2] - '0';
     char *mapa = (char *) malloc(sizeof(char) * tamanho_campo);
     for (int i = 0; i < tamanho_campo; ++i) {
-      mapa[i] = linha[i+4];
+      mapa[i] = pch[i];
       printf("%c", mapa[i]);
     }
     printf("\n");
-
 
     EstadoCampo_t *campo = (EstadoCampo_t *) malloc(sizeof(EstadoCampo_t));
     cria_campo(campo, lado_campo, 1, mapa, tamanho_campo);
@@ -46,7 +60,7 @@ int main(int argc, char **argv) {
     printf("\n");
     
     RespostaJogada_t *jogada_final = malloc(sizeof(RespostaJogada_t));
-    int utilidade = minimax_inicial(jogada_final, campo, 2, 1);
+    int utilidade = minimax_inicial(jogada_final, campo, 4, 1);
 
     printf("utilidade: %d\n", utilidade);
     if (jogada_final->tipo == 1) {
