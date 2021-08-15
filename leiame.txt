@@ -4,7 +4,7 @@ ndm17 - GRR20171605
 Phutball - Trabalho 2 de IA 
 
 ----------------
-A estratégia utilizada pelo agente é a execução do minimax com profundidade variável (de acordo com quão vazio o mapa está).
+A estratégia utilizada pelo agente é a execução do minimax com poda alpha-beta e com profundidade variável (de acordo com quão vazio o mapa está).
 A heurística é baseada na distância da bola dos dois gols, com uma exceção que adiciona uma punição para caso a bola fique presa "na frente" do gol.
 
 Explicação detalhada:
