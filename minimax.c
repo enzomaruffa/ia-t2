@@ -224,10 +224,6 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
         for (int i = 0; i < tamanho_estados; i++) {
             int nova_utilidade = minimax(estados[i], profundidade - 1, !maximizando);
 
-            for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
-                printf("%c", estados[i]->mapa[k]);
-            }
-            printf("    Jogada resultou em %d\n", nova_utilidade);
             if (nova_utilidade > utilidade) {
                 utilidade = nova_utilidade;
                 indice_estado = i;
@@ -240,18 +236,12 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
         for (int i = 0; i < tamanho_estados; i++) {
             int nova_utilidade = minimax(estados[i], profundidade - 1, !maximizando);
 
-            for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
-                printf("%c", estados[i]->mapa[k]);
-            }
-            printf("    Jogada resultou em %d\n", nova_utilidade);
             if (nova_utilidade < utilidade) {
                 utilidade = nova_utilidade;
                 indice_estado = i;
             } 
         }
     }
-
-    printf("Melhor jogada tem utilidade %d\n", utilidade);
 
     // A partir do indice do estado, encontra a jogada
     if (indice_estado < tamanho_jogadas_bola) {
@@ -460,11 +450,6 @@ int alphabeta_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int prof
                 indice_estado = i;
             } 
 
-            for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
-                printf("%c", estados[i]->mapa[k]);
-            }
-            printf("    Jogada resultou em %d. Novo alpha e novo beta são: %d, %d\n", nova_utilidade, novo_alpha, novo_beta);
-
             if (utilidade >= novo_beta) {
                 break;
             }
@@ -485,11 +470,6 @@ int alphabeta_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int prof
                 indice_estado = i;
             } 
 
-            for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
-                printf("%c", estados[i]->mapa[k]);
-            }
-            printf("    Jogada resultou em %d. alpha e beta são: %d, %d\n", nova_utilidade, novo_alpha, novo_beta);
-
             if (utilidade <= novo_alpha) {
                 break;
             }
@@ -499,8 +479,6 @@ int alphabeta_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int prof
             }
         }
     }
-
-    printf("Melhor jogada tem utilidade %d\n", utilidade);
 
     // A partir do indice do estado, encontra a jogada
     if (indice_estado < tamanho_jogadas_bola) {

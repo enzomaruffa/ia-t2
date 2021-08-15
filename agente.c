@@ -18,13 +18,6 @@ int main(int argc, char **argv) {
   while(1) {
 
     campo_recebe(buffer);
-    printf("RECEBEU [%s]", buffer);
-    printf("\n");
-    // linha = readline(NULL);
-    // if(linha[0] == '0')
-    //   exit(0);
-    // sprintf(buffer, "%s\n", linha);
-    
 
     // LEITURA
     char *pch;
@@ -50,9 +43,7 @@ int main(int argc, char **argv) {
     char *mapa = (char *) malloc(sizeof(char) * tamanho_campo);
     for (int i = 0; i < tamanho_campo; ++i) {
       mapa[i] = pch[i];
-      // printf("%c", mapa[i]);
     }
-    // printf("\n");
 
     EstadoCampo_t *campo = (EstadoCampo_t *) malloc(sizeof(EstadoCampo_t));
     cria_campo(campo, lado_campo, 1, mapa, tamanho_campo);
@@ -69,12 +60,6 @@ int main(int argc, char **argv) {
     if (posicao_bola < 0) {
       return 0;
     }
-    
-    // printf("campo criado: \n");
-    // for (int k = 0; k < campo->tamanho_mapa; ++k) {
-    //   printf("%c", campo->mapa[k]);
-    // }
-    // printf("\n");
 
     int quantidade_vazio = 0;
     for (int k = 0; k < campo->tamanho_mapa; ++k) {
@@ -85,9 +70,7 @@ int main(int argc, char **argv) {
 
     int profundidade = 8;
 
-    printf("quantidade_vazio %d", quantidade_vazio);
-
-    if (quantidade_vazio > 14) {
+    if (quantidade_vazio > 7) {
       profundidade = 7;
     };
     
@@ -103,21 +86,7 @@ int main(int argc, char **argv) {
 
     end = clock();
     seconds = (float)(end - start) / CLOCKS_PER_SEC;
-    printf("Total time: %f\n", seconds);
-
-    // printf("utilidade: %d\n", utilidade);
-    // if (jogada_final->tipo == 1) {
-    //   aplica_jogada_bola(jogada_final->jogada, campo);
-      // escreve_jogada_bola();
-    // } else if(jogada_final->tipo == 0) {
-    //   aplica_jogada_filosofo(jogada_final->jogada, campo);
-      // escreve_jogada_filosofo();
-    // }
-
-    // printf("campo_final: ");
-    // for (int k = 0; k < campo->tamanho_mapa; ++k) {
-    //   printf("%c", campo->mapa[k]);
-    // }
+    printf("Temppo: %f\n", seconds);
 
     memset(buffer, ' ', MAXSTR);
 
@@ -128,9 +97,6 @@ int main(int argc, char **argv) {
       escreve_jogada_filosofo(campo->meu_lado, (JogadaFilosofo_t *)jogada_final->jogada, buffer, MAXSTR);
       destroi_jogada_filosofo(jogada_final->jogada);
     }; 
-
-    printf("ENVIANDO [%s]", buffer);
-    printf("\n");
 
     free(jogada_final);
     destroi_campo(campo);
