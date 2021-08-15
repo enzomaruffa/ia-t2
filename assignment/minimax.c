@@ -56,6 +56,10 @@ int calcula_utilidade(EstadoCampo_t *estado) {
     }
 
     // printf("estado->tamanho_mapa: %d\n", estado->tamanho_mapa);
+    // Aumenta para evitar chutar desnecessáriamente
+    if (maior_distancia_meu_gol == estado->tamanho_mapa - 2) {
+        maior_distancia_meu_gol -= 2;
+    }
 
     // Caso vá perder, aumenta em 1000
     if (maior_distancia_gol_oponente == estado->tamanho_mapa - 1) {
@@ -216,10 +220,10 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
         for (int i = 0; i < tamanho_estados; i++) {
             int nova_utilidade = minimax(estados[i], profundidade - 1, !maximizando);
 
-            // for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
-            //     printf("%c", estados[i]->mapa[k]);
-            // }
-            // printf("    Jogada resultou em %d\n", nova_utilidade);
+            for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
+                printf("%c", estados[i]->mapa[k]);
+            }
+            printf("    Jogada resultou em %d\n", nova_utilidade);
             if (nova_utilidade >= utilidade) {
                 utilidade = nova_utilidade;
                 indice_estado = i;
@@ -232,10 +236,10 @@ int minimax_inicial(RespostaJogada_t * jogada, EstadoCampo_t *estado, int profun
         for (int i = 0; i < tamanho_estados; i++) {
             int nova_utilidade = minimax(estados[i], profundidade - 1, !maximizando);
 
-            // for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
-            //     printf("%c", estados[i]->mapa[k]);
-            // }
-            // printf("    Jogada resultou em %d\n", nova_utilidade);
+            for (int k = 0; k < estados[i]->tamanho_mapa; ++k) {
+                printf("%c", estados[i]->mapa[k]);
+            }
+            printf("    Jogada resultou em %d\n", nova_utilidade);
             if (nova_utilidade <= utilidade) {
                 utilidade = nova_utilidade;
                 indice_estado = i;
