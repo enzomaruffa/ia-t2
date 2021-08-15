@@ -82,8 +82,12 @@ int calcula_utilidade(EstadoCampo_t *estado) {
 int minimax(EstadoCampo_t *estado, int profundidade, int maximizando) {
     int algum_vitorioso = verifica_vitorioso(estado);
 
-    if (profundidade == 0 || algum_vitorioso) {
+    if (profundidade == 0) {
         return calcula_utilidade(estado);
+    }
+
+    if (algum_vitorioso) {
+        return calcula_utilidade(estado) * profundidade;
     }
 
     // Pega todas as jogadas que podem ser feitas
